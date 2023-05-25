@@ -12,7 +12,7 @@ export default function PdfViewer() {
     }
 
     function changePage(offset) {
-        setPageNumber(prevPageNumber => prevPageNumber + offset);
+        setPageNumber((prevPageNumber) => prevPageNumber + offset);
     }
 
     function previousPage() {
@@ -26,44 +26,42 @@ export default function PdfViewer() {
     function handleFileChange(event) {
         const file = event.target.files[0];
         setPdfFile(file);
-
     }
 
     return (
-        <>
+        <div className="pdf-viewer-container">
             <input type="file" accept=".pdf" onChange={handleFileChange} />
             {pdfFile && (
-                <>
-                    <Document
-                        file={pdfFile}
-
-                        onLoadSuccess={onDocumentLoadSuccess}
-                    >
+                <div className="pdf-container">
+                    <Document file={pdfFile} onLoadSuccess={onDocumentLoadSuccess}>
                         <Page pageNumber={pageNumber} />
                     </Document>
-                    <div>
+                    <div className="pdf-pagination">
                         <p>
                             Page {pageNumber || (numPages ? 1 : "--")} of {numPages || "--"}
                         </p>
-                        <button
-                            type="button"
-                            disabled={pageNumber <= 1}
-                            onClick={previousPage}
-                        >
-                            Previous
-                        </button>
-                        <button
-                            type="button"
-                            disabled={pageNumber >= numPages}
-                            onClick={nextPage}
-                        >
-                            Next
-                        </button>
+                        <div className="pdf-buttons">
+                            <button
+                                type="button"
+                                disabled={pageNumber <= 1}
+                                onClick={previousPage}
+                            >
+                                Previous
+                            </button>
+                            <button
+                                type="button"
+                                disabled={pageNumber >= numPages}
+                                onClick={nextPage}
+                            >
+                                Next
+                            </button>
+                        </div>
                     </div>
-                </>
+                </div>
             )}
-        </>
+        </div>
     );
 }
+
 
 
