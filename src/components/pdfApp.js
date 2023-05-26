@@ -13,11 +13,13 @@ const PdfApp = () => {
     return (
         <div className="pdf-app">
             <h1>PDF Editor App</h1>
-            <React.Fragment>
-                <PdfViewer pdfFile={pdfFile} />
-                <PdfEditor pdfFile={pdfFile} />
-            </React.Fragment>
-
+            <input type="file" accept=".pdf" onChange={handleFileChange} />
+            {pdfFile ? (
+                <React.Fragment>
+                    <PdfViewer pdfFile={pdfFile} />
+                    <PdfEditor pdfFile={pdfFile} />
+                </React.Fragment>
+            ) : <p>Please upload a PDF file.</p>}
         </div>
     );
 };

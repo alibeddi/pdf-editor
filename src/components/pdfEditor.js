@@ -6,10 +6,7 @@ export default function PdfEditor({ pdfFile }) {
     const [position, setPosition] = useState({ x: 0, y: 0 });
 
     function addTextToPdf() {
-
         const { PDFDocument, StandardFonts } = require("pdf-lib");
-
-
         PDFDocument.load(pdfFile)
             .then((pdfDoc) => {
                 const page = pdfDoc.getPages()[pageIndex];
