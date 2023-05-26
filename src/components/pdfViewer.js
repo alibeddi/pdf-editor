@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 
 export default function PdfViewer({ pdfFile, text }) {
     const [numPages, setNumPages] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [isDragging, setIsDragging] = useState(false);
+    const containerRef = useRef(null);
 
-    pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+    pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
     function onDocumentLoadSuccess({ numPages }) {
         setNumPages(numPages);
@@ -24,11 +27,24 @@ export default function PdfViewer({ pdfFile, text }) {
         changePage(1);
     }
 
-    const renderTextOverlay = () => {
-        const pageStyle = {
-            position: "relative",
-        };
+    const handleMouseDown = (e) => {
+        setIsDragging(true);
+    };
 
+    const handleMouseMove = (e) => {
+        if (isDragging) {
+            const containerRect = containerRef.current.getBoundingClientRect();
+            const x = e.clientX - containerRect.left;
+            const y = e.clientY - containerRect.top;
+            setPosition({ x, y });
+        }
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+    };
+
+    const renderTextOverlay = () => {
         const overlayStyle = {
             position: "absolute",
             top: 0,
@@ -39,18 +55,29 @@ export default function PdfViewer({ pdfFile, text }) {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            zIndex: "9999"
         };
 
         const boxStyle = {
             background: "rgba(255, 255, 255, 0.8)",
             padding: "10px",
             border: "1px solid black",
+            position: "absolute",
+            left: `${position.x}px`,
+            top: `${position.y}px`,
         };
 
         return (
-            <div className="pdf-text-overlay" style={overlayStyle}>
-                <div style={boxStyle}>
+            <div
+                className="pdf-text-overlay"
+                style={overlayStyle}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+            >
+                <div
+                    className="pdf-text-box"
+                    style={boxStyle}
+                    onMouseDown={handleMouseDown}
+                >
                     <p>{text}</p>
                 </div>
             </div>
@@ -58,24 +85,33 @@ export default function PdfViewer({ pdfFile, text }) {
     };
 
     return (
-        <div className="pdf-viewer-container">
+        <div className="pdf-viewer-container" ref={containerRef}>
             <div className="pdf-container">
-                <Document
-                    file={pdfFile}
-                    onLoadSuccess={onDocumentLoadSuccess}
-                    options={{ workerSrc: "//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.worker.min.js" }}
-                >
-                    <Page pageNumber={pageNumber} style={renderTextOverlay()} />
+                <Document file={pdfFile} onLoadSuccess={onDocumentLoadSuccess}>
+                    <Page
+                        pageNumber={pageNumber}
+                        className="pdf-page"
+                        renderAnnotationLayer={false}
+                    />
+                    {text && renderTextOverlay()}
                 </Document>
                 <div className="pdf-pagination">
                     <p>
                         Page {pageNumber || (numPages ? 1 : "--")} of {numPages || "--"}
                     </p>
                     <div className="pdf-buttons">
-                        <button type="button" disabled={pageNumber <= 1} onClick={previousPage}>
+                        <button
+                            type="button"
+                            disabled={pageNumber <= 1}
+                            onClick={previousPage}
+                        >
                             Previous
                         </button>
-                        <button type="button" disabled={pageNumber >= numPages} onClick={nextPage}>
+                        <button
+                            type="button"
+                            disabled={pageNumber >= numPages}
+                            onClick={nextPage}
+                        >
                             Next
                         </button>
                     </div>
@@ -84,7 +120,4 @@ export default function PdfViewer({ pdfFile, text }) {
         </div>
     );
 }
-
-
-
 
