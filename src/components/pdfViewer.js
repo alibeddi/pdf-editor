@@ -31,7 +31,7 @@ export default function PdfViewer() {
     return (
         <div className="pdf-viewer-container">
             <input type="file" accept=".pdf" onChange={handleFileChange} />
-            {pdfFile && (
+            {pdfFile ? (
                 <div className="pdf-container">
                     <Document file={pdfFile} onLoadSuccess={onDocumentLoadSuccess}>
                         <Page pageNumber={pageNumber} />
@@ -58,7 +58,7 @@ export default function PdfViewer() {
                         </div>
                     </div>
                 </div>
-            )}
+            ) : <p>Please upload a PDF file.</p>}
         </div>
     );
 }
