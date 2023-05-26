@@ -24,6 +24,39 @@ export default function PdfViewer({ pdfFile, text }) {
         changePage(1);
     }
 
+    const renderTextOverlay = () => {
+        const pageStyle = {
+            position: "relative",
+        };
+
+        const overlayStyle = {
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            pointerEvents: "none",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: "9999"
+        };
+
+        const boxStyle = {
+            background: "rgba(255, 255, 255, 0.8)",
+            padding: "10px",
+            border: "1px solid black",
+        };
+
+        return (
+            <div className="pdf-text-overlay" style={overlayStyle}>
+                <div style={boxStyle}>
+                    <p>{text}</p>
+                </div>
+            </div>
+        );
+    };
+
     return (
         <div className="pdf-viewer-container">
             <div className="pdf-container">
@@ -32,12 +65,7 @@ export default function PdfViewer({ pdfFile, text }) {
                     onLoadSuccess={onDocumentLoadSuccess}
                     options={{ workerSrc: "//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.worker.min.js" }}
                 >
-                    <Page pageNumber={pageNumber} />
-                    {text && (
-                        <div className="pdf-text-overlay">
-                            <p>{text}</p>
-                        </div>
-                    )}
+                    <Page pageNumber={pageNumber} style={renderTextOverlay()} />
                 </Document>
                 <div className="pdf-pagination">
                     <p>
@@ -56,7 +84,6 @@ export default function PdfViewer({ pdfFile, text }) {
         </div>
     );
 }
-
 
 
 
