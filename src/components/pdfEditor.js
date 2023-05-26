@@ -1,12 +1,12 @@
 import React, { useState } from "react";
+import { PDFDocument, StandardFonts } from "pdf-lib";
 
-export default function PdfEditor({ pdfFile }) {
+export default function PdfEditor({ pdfFile, updateText }) {
     const [text, setText] = useState("");
     const [pageIndex, setPageIndex] = useState(0);
     const [position, setPosition] = useState({ x: 0, y: 0 });
 
     function addTextToPdf() {
-        const { PDFDocument, StandardFonts } = require("pdf-lib");
         PDFDocument.load(pdfFile)
             .then((pdfDoc) => {
                 const page = pdfDoc.getPages()[pageIndex];
@@ -22,7 +22,6 @@ export default function PdfEditor({ pdfFile }) {
                 return pdfDoc.save();
             })
             .then((newPdfBytes) => {
-
                 const blob = new Blob([newPdfBytes], { type: "application/pdf" });
                 const url = URL.createObjectURL(blob);
                 const link = document.createElement("a");
@@ -35,6 +34,12 @@ export default function PdfEditor({ pdfFile }) {
             });
     }
 
+    function handleTextChange(e) {
+        const newText = e.target.value;
+        setText(newText);
+        updateText(newText);
+    }
+
     return (
         <div className="pdf-editor">
             <h2>PDF Editor</h2>
@@ -44,7 +49,7 @@ export default function PdfEditor({ pdfFile }) {
                     id="text-input"
                     type="text"
                     value={text}
-                    onChange={(e) => setText(e.target.value)}
+                    onChange={handleTextChange}
                 />
             </div>
             <div>
@@ -64,7 +69,12 @@ export default function PdfEditor({ pdfFile }) {
                     id="x-input"
                     type="number"
                     value={position.x}
-                    onChange={(e) => setPosition((prevPosition) => ({ ...prevPosition, x: parseInt(e.target.value) }))}
+                    onChange={(e) =>
+                        setPosition((prevPosition) => ({
+                            ...prevPosition,
+                            x: parseInt(e.target.value),
+                        }))
+                    }
                 />
             </div>
             <div>
@@ -73,12 +83,18 @@ export default function PdfEditor({ pdfFile }) {
                     id="y-input"
                     type="number"
                     value={position.y}
-                    onChange={(e) => setPosition((prevPosition) => ({ ...prevPosition, y: parseInt(e.target.value) }))}
+                    onChange={(e) =>
+                        setPosition((prevPosition) => ({
+                            ...prevPosition,
+                            y: parseInt(e.target.value),
+                        }))
+                    }
                 />
             </div>
             <button onClick={addTextToPdf}>Add Text to PDF</button>
         </div>
     );
 }
+
 
 
