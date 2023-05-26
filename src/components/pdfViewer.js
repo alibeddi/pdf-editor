@@ -58,12 +58,12 @@ export default function PdfViewer({ pdfFile, text }) {
         };
 
         const boxStyle = {
-            background: "rgba(255, 255, 255, 0.8)",
-            padding: "10px",
-            border: "1px solid black",
-            position: "absolute",
-            left: `${position.x}px`,
-            top: `${position.y}px`,
+            //     background: "rgba(255, 255, 255, 0.8)",
+            //     padding: "10px",
+            //     border: "1px solid black",
+            //     position: "absolute",
+            //     left: `${position.x}px`,
+            //     top: `${position.y}px`,
         };
 
         return (
