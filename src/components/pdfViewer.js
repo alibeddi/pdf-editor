@@ -39,11 +39,9 @@ export default function PdfViewer({ pdfFile, text }) {
             setPosition({ x, y });
         }
     };
-
     const handleMouseUp = () => {
         setIsDragging(false);
     };
-
     const renderTextOverlay = () => {
         const overlayStyle = {
             position: "absolute",
