@@ -4,9 +4,9 @@ import { ggID } from '../utils/helpers';
 import { usePdf } from './usePdf';
 import { AttachmentTypes } from '../entities';
 
-export enum UploadTypes {
-  PDF = 'pdf',
-  IMAGE = 'image',
+const UploadTypes = {
+  PDF: 'pdf',
+  IMAGE: 'image',
 }
 
 const useUploader = ({
