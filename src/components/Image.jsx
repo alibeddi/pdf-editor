@@ -47,7 +47,7 @@ function Image({ canvasRef,
                         height: '100%',
                     }}
                 />
-                <Dimmer active={props.dimmerActive} onClickOutside={cancelDelete}>
+                <Dimmer active={dimmerActive} onClickOutside={cancelDelete}>
                     <ConfirmContent
                         title="Delete?"
                         onConfirm={deleteImage}

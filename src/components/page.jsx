@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-
-export const Page = ({ page, dimensions, updateDimensions }) => {
-    const canvasRef = useRef < HTMLCanvasElement > (null);
+function Page({ page, dimensions, updateDimensions }) {
+    const canvasRef = useRef(null);
     const [width, setWidth] = useState((dimensions && dimensions.width) || 0);
     const [height, setHeight] = useState((dimensions && dimensions.height) || 0);
 
     useEffect(() => {
-        const renderPage = async () => {
+        const renderPage = async (p) => {
             const _page = await p;
             if (_page) {
                 const context = canvasRef.current?.getContext('2d');
@@ -40,4 +39,8 @@ export const Page = ({ page, dimensions, updateDimensions }) => {
             <canvas ref={canvasRef} width={width} height={height} />
         </div>
     );
-};
+}
+
+export default Page;
+
+

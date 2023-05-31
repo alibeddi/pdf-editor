@@ -2,7 +2,7 @@ import React, { useState, useLayoutEffect } from 'react';
 import 'semantic-ui-css/semantic.min.css'
 
 import { Container, Grid, Button, Segment } from 'semantic-ui-react';
-import { MenuBar } from './components/MenuBar';
+import MenuBar from './components/MenuBar';
 import { DrawingModal } from './modals/components/DrawingModal';
 import { HelpModal } from './modals/components/HelpModal';
 import { usePdf, Pdf } from './hooks/usePdf';
@@ -10,8 +10,8 @@ import { AttachmentTypes } from './entities';
 import { ggID } from './utils/helpers';
 import { useAttachments } from './hooks/useAttachments';
 import { useUploader, UploadTypes } from './hooks/useUploader';
-import { Empty } from './components/Empty';
-import { Page } from './components/Page';
+import Empty from './components/Empty';
+import { Page } from './components/page';
 import { Attachments } from './components/Attachments';
 
 const App = () => {
