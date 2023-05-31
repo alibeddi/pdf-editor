@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Dimmer } from 'semantic-ui-react';
-import { Div } from '../ui/components/Div';
-import { ConfirmContent } from './ConfirmContent';
+import Div from '../ui/components/Div';
+import ConfirmContent from './ConfirmContent';
 
 const Drawing = ({
     dimmerActive,

@@ -1,8 +1,8 @@
 import React from 'react';
 import { AttachmentTypes } from '../entities';
-import { Image } from '../containers/Image';
-import { Drawing } from '../containers/Drawing';
-import { Text } from '../containers/Text';
+import Image from '../containers/Image';
+import Drawing from '../containers/Drawing';
+import Text from '../containers/Text';
 
 const Attachments = ({
     attachments,
