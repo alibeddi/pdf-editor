@@ -3,20 +3,13 @@ import { getAsset } from './prepareAssets';
 import { normalize } from './helpers';
 
 export async function save(
-  pdfFile: File,
-  objects: Attachments[],
-  name: string
+  pdfFile,
+  objects,
+  name
 ) {
   const PDFLib = await getAsset('PDFLib');
   const download = await getAsset('download');
-  let pdfDoc: {
-    getPages: () => any[];
-    embedFont: (arg0: unknown) => any;
-    embedJpg: (arg0: unknown) => any;
-    embedPng: (arg0: unknown) => any;
-    embedPdf: (arg0: any) => [any] | PromiseLike<[any]>;
-    save: () => any;
-  };
+  let pdfDoc;
 
   try {
     pdfDoc = await PDFLib.PDFDocument.load(await readAsArrayBuffer(pdfFile));
@@ -27,12 +20,11 @@ export async function save(
 
   const pagesProcesses = pdfDoc.getPages().map(async (page, pageIndex) => {
     const pageObjects = objects[pageIndex];
-    // 'y' starts from bottom in PDFLib, use this to calculate y
     const pageHeight = page.getHeight();
-    const embedProcesses = pageObjects.map(async (object: Attachment) => {
+    const embedProcesses = pageObjects.map(async (object) => {
       if (object.type === 'image') {
-        const { file, x, y, width, height } = object as ImageAttachment;
-        let img: any;
+        const { file, x, y, width, height } = object;
+        let img;
         try {
           if (file.type === 'image/jpeg') {
             img = await pdfDoc.embedJpg(await readAsArrayBuffer(file));
@@ -59,7 +51,7 @@ export async function save(
           size,
           fontFamily,
           width,
-        } = object as TextAttachment;
+        } = object;
         const pdfFont = await pdfDoc.embedFont(fontFamily);
         return () =>
           page.drawText(text, {
@@ -68,7 +60,7 @@ export async function save(
             size,
             lineHeight,
             x,
-            y: pageHeight - size! - y,
+            y: pageHeight - size - y,
           });
       } else if (object.type === 'drawing') {
         const {
@@ -78,7 +70,7 @@ export async function save(
           scale,
           stroke,
           strokeWidth,
-        } = object as DrawingAttachment;
+        } = object;
         const {
           pushGraphicsState,
           setLineCap,
@@ -95,7 +87,7 @@ export async function save(
             setLineJoin(LineJoinStyle.Round)
           );
 
-          const color = window.w3color(stroke!).toRgb();
+          const color = window.w3color(stroke).toRgb();
 
           page.drawSvgPath(path, {
             borderColor: rgb(
@@ -112,11 +104,13 @@ export async function save(
         };
       }
     });
-    // embed objects in order
-    const drawProcesses: any[] = await Promise.all(embedProcesses);
+
+    const drawProcesses = await Promise.all(embedProcesses);
     drawProcesses.forEach((p) => p());
   });
+
   await Promise.all(pagesProcesses);
+
   try {
     const pdfBytes = await pdfDoc.save();
     download(pdfBytes, name, 'application/pdf');
@@ -125,3 +119,4 @@ export async function save(
     throw e;
   }
 }
+

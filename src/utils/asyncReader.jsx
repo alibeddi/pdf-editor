@@ -1,8 +1,7 @@
-import { getAsset } from './prepareAssets';
+import { useEffect } from 'react';
+import getAsset from './prepareAssets';
 
-export const readAsArrayBuffer = (
-  file: File
-): Promise<string | ArrayBuffer | null> => {
+export const readAsArrayBuffer = (file) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result);
@@ -11,7 +10,7 @@ export const readAsArrayBuffer = (
   });
 };
 
-export const readAsImage = (src: Blob | string): Promise<HTMLImageElement> => {
+export const readAsImage = (src) => {
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => resolve(img);
@@ -25,9 +24,7 @@ export const readAsImage = (src: Blob | string): Promise<HTMLImageElement> => {
   });
 };
 
-export const readAsDataURL = (
-  file: File
-): Promise<string | ArrayBuffer | null> => {
+export const readAsDataURL = (file) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result);
@@ -36,14 +33,20 @@ export const readAsDataURL = (
   });
 };
 
-interface PDF {
-  numPages: number;
-  getPage: (index: number) => Promise<any>;
-}
-export const readAsPDF = async (file: File): Promise<PDF> => {
+export const readAsPDF = async (file) => {
   const pdfjsLib = await getAsset('pdfjsLib');
   // Safari possibly get webkitblobresource error 1 when using origin file blob
   const blob = new Blob([file]);
   const url = window.URL.createObjectURL(blob);
   return pdfjsLib.getDocument(url).promise;
 };
+
+const MyComponent = () => {
+  useEffect(() => {
+    // Call prepareAssets if needed
+  }, []);
+
+  return <div>{/* JSX content */}</div>;
+};
+
+
