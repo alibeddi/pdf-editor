@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 const scripts = [
   {
@@ -24,8 +24,8 @@ const scripts = [
 const assets = {};
 
 const getAsset = (scriptName) => assets[scriptName];
-export default { getAsset }
-const prepareAssets = () => {
+
+const usePrepareAssets = () => {
   useEffect(() => {
     const loadScript = async (script) => {
       return new Promise((resolve, reject) => {
@@ -35,7 +35,8 @@ const prepareAssets = () => {
           resolve(window[script.name]);
           console.log(`${script.name} is loaded.`);
         };
-        scriptElement.onerror = () => reject(`The script ${script.name} didn't load correctly.`);
+        scriptElement.onerror = () =>
+          reject(`The script ${script.name} didn't load correctly.`);
         document.body.appendChild(scriptElement);
       });
     };
@@ -107,10 +108,11 @@ const fetchFont = async (name) => {
 };
 
 const MyComponent = () => {
-  useEffect(() => {
-    prepareAssets();
-  }, []);
+  usePrepareAssets();
 
   return <div>{/* JSX content */}</div>;
 };
+
+export { getAsset, MyComponent };
+
 

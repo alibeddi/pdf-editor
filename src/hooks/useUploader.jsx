@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { readAsPDF, readAsDataURL, readAsImage } from '../utils/asyncReader';
-import ggID from '../utils/helpers';
+import { ggID } from '../utils/helpers';
 import { usePdf } from './usePdf';
 import { AttachmentTypes } from '../entities';
 

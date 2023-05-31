@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import getAsset from './prepareAssets';
+import { getAsset } from './prepareAssets';
 
 export const readAsArrayBuffer = (file) => {
   return new Promise((resolve, reject) => {

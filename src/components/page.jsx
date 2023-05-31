@@ -6,9 +6,9 @@ function Page({ page, dimensions, updateDimensions }) {
     const [height, setHeight] = useState((dimensions && dimensions.height) || 0);
 
     useEffect(() => {
-        const renderPage = async (p) => {
-            const _page = await p;
-            if (_page) {
+        const renderPage = async () => {
+            if (page) {
+                const _page = await page;
                 const context = canvasRef.current?.getContext('2d');
                 const viewport = _page.getViewport({ scale: 1 });
 
@@ -17,7 +17,7 @@ function Page({ page, dimensions, updateDimensions }) {
 
                 if (context) {
                     await _page.render({
-                        canvasContext: canvasRef.current?.getContext('2d'),
+                        canvasContext: context,
                         viewport,
                     }).promise;
 
@@ -31,7 +31,7 @@ function Page({ page, dimensions, updateDimensions }) {
             }
         };
 
-        renderPage(page);
+        renderPage();
     }, [page, updateDimensions]);
 
     return (
@@ -42,5 +42,6 @@ function Page({ page, dimensions, updateDimensions }) {
 }
 
 export default Page;
+
 
 
