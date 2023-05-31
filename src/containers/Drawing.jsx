@@ -1,9 +1,9 @@
 import React, { createRef, useEffect, useState } from 'react';
 import { DragActions } from '../entities';
 import { getMovePosition } from '../utils/helpers';
-import { Drawing as DrawingComponent } from '../components/Drawing';
+import Drawing from '../components/Drawing';
 
-const Drawing = ({
+const DrawingContainer = ({
     x,
     y,
     width,
@@ -104,7 +104,7 @@ const Drawing = ({
     };
 
     return (
-        <DrawingComponent
+        <Drawing
             stroke={stroke}
             strokeWidth={strokeWidth}
             path={path}
@@ -125,4 +125,4 @@ const Drawing = ({
     );
 };
 
-export default Drawing;
+export default DrawingContainer;

@@ -158,15 +158,6 @@ const DrawingModal = ({ open, dismiss, confirm, drawing }) => {
                 </div>
               </Dropdown.Menu>
             </Dropdown>
-            {/* <Dropdown item text={stroke}>
-<Dropdown.Menu>
-<Card.Group itemsPerRow={3}>
-{Object.values(Color).map((color, index) => (
-<Card inverted key={index} color={color} />
-))}
-</Card.Group>
-</Dropdown.Menu>
-</Dropdown> */}
           </Menu.Menu>
         </Menu>
         <div

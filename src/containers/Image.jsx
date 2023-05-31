@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { DragActions } from '../entities';
 import { getMovePosition } from '../utils/helpers';
-import { Image as ImageComponent } from '../components/Image';
+import Image from '../components/Image';
 
 const IMAGE_MAX_SIZE = 300;
 
-const Image = ({
+const ImageContainer = ({
     x,
     y,
     img,
@@ -170,7 +170,7 @@ const Image = ({
     };
 
     return (
-        <ImageComponent
+        <Image
             onClick={handleClick}
             dimmerActive={dimmerActive}
             cancelDelete={onCancelDelete}
@@ -189,4 +189,4 @@ const Image = ({
     );
 };
 
-export default Image;
+export default ImageContainer;
