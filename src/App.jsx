@@ -6,7 +6,7 @@ import DrawingModal from './modals/components/DrawingModal';
 import HelpModal from './modals/components/HelpModal';
 import { usePdf } from './hooks/usePdf';
 import { AttachmentTypes } from './entities/';
-import ggID from './utils/helpers';
+import { ggID } from './utils/helpers';
 import { useAttachments } from './hooks/useAttachments';
 import useUploader, { UploadTypes } from './hooks/useUploader';
 import Empty from './components/Empty';
