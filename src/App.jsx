@@ -1,24 +1,46 @@
 import React, { useState, useLayoutEffect } from 'react';
-import 'semantic-ui-css/semantic.min.css'
-
+import 'semantic-ui-css/semantic.min.css';
 import { Container, Grid, Button, Segment } from 'semantic-ui-react';
 import MenuBar from './components/MenuBar';
 import { DrawingModal } from './modals/components/DrawingModal';
 import { HelpModal } from './modals/components/HelpModal';
-import { usePdf, Pdf } from './hooks/usePdf';
-import { AttachmentTypes } from './entities';
+import { usePdf } from './hooks/usePdf';
+import { AttachmentTypes } from './entities/';
 import { ggID } from './utils/helpers';
 import { useAttachments } from './hooks/useAttachments';
-import { useUploader, UploadTypes } from './hooks/useUploader';
+import useUploader, { UploadTypes } from './hooks/useUploader';
 import Empty from './components/Empty';
-import { Page } from './components/page';
-import { Attachments } from './components/Attachments';
+import Page from './components/Page';
+import Attachments from './components/Attachments';
 
 const App = () => {
   const [helpModalOpen, setHelpModalOpen] = useState(false);
   const [drawingModalOpen, setDrawingModalOpen] = useState(false);
-  const { file, initialize, pageIndex, isMultiPage, isFirstPage, isLastPage, currentPage, isSaving, savePdf, previousPage, nextPage, setDimensions, name, dimensions } = usePdf();
-  const { add: addAttachment, allPageAttachments, pageAttachments, reset: resetAttachments, update, remove, setPageIndex } = useAttachments();
+  const {
+    file,
+    initialize,
+    pageIndex,
+    isMultiPage,
+    isFirstPage,
+    isLastPage,
+    currentPage,
+    isSaving,
+    savePdf,
+    previousPage,
+    nextPage,
+    setDimensions,
+    name,
+    dimensions,
+  } = usePdf();
+  const {
+    add: addAttachment,
+    allPageAttachments,
+    pageAttachments,
+    reset: resetAttachments,
+    update,
+    remove,
+    setPageIndex,
+  } = useAttachments();
 
   const initializePageAndAttachments = (pdfDetails) => {
     initialize(pdfDetails);
@@ -26,11 +48,22 @@ const App = () => {
     resetAttachments(numberOfPages);
   };
 
-  const { inputRef: pdfInput, handleClick: handlePdfClick, isUploading, onClick, upload: uploadPdf } = useUploader({
+  const {
+    inputRef: pdfInput,
+    handleClick: handlePdfClick,
+    isUploading: isPdfUploading,
+    onClick: onPdfClick,
+    upload: uploadPdf,
+  } = useUploader({
     use: UploadTypes.PDF,
     afterUploadPdf: initializePageAndAttachments,
   });
-  const { inputRef: imageInput, handleClick: handleImageClick, onClick: onImageClick, upload: uploadImage } = useUploader({
+  const {
+    inputRef: imageInput,
+    handleClick: handleImageClick,
+    onClick: onImageClick,
+    upload: uploadImage,
+  } = useUploader({
     use: UploadTypes.IMAGE,
     afterUploadAttachment: addAttachment,
   });
@@ -61,9 +94,9 @@ const App = () => {
       x: 0,
       y: 0,
       scale: 1,
-    }
+    };
     addAttachment(newDrawingAttachment);
-  }
+  };
 
   useLayoutEffect(() => setPageIndex(pageIndex), [pageIndex, setPageIndex]);
 
@@ -77,7 +110,7 @@ const App = () => {
         id="pdf"
         accept="application/pdf"
         onChange={uploadPdf}
-        onClick={onClick}
+        onClick={onPdfClick}
         style={{ display: 'none' }}
       />
       <input
@@ -91,14 +124,12 @@ const App = () => {
         onChange={uploadImage}
       />
     </>
-  )
+  );
 
   const handleSavePdf = () => savePdf(allPageAttachments);
 
   return (
-    <Container
-      style={{ margin: 30 }}
-    >
+    <Container style={{ margin: 30 }}>
       {hiddenInputs}
       <MenuBar
         openHelp={() => setHelpModalOpen(true)}
@@ -112,10 +143,7 @@ const App = () => {
       />
 
       {!file ? (
-        <Empty
-          loading={isUploading}
-          uploadPdf={handlePdfClick}
-        />
+        <Empty loading={isPdfUploading} uploadPdf={handlePdfClick} />
       ) : (
         <Grid>
           <Grid.Row>
@@ -126,19 +154,9 @@ const App = () => {
             </Grid.Column>
             <Grid.Column width={10}>
               {currentPage && (
-                <Segment
-                  data-testid="page"
-                  compact
-                  stacked={isMultiPage && !isLastPage}
-                >
-                  <div
-                    style={{ position: 'relative' }}
-                  >
-                    <Page
-                      dimensions={dimensions}
-                      updateDimensions={setDimensions}
-                      page={currentPage}
-                    />
+                <Segment data-testid="page" compact stacked={isMultiPage && !isLastPage}>
+                  <div style={{ position: 'relative' }}>
+                    <Page dimensions={dimensions} updateDimensions={setDimensions} page={currentPage} />
                     {dimensions && (
                       <Attachments
                         pdfName={name}
@@ -151,7 +169,6 @@ const App = () => {
                   </div>
                 </Segment>
               )}
-
             </Grid.Column>
             <Grid.Column width={3} verticalAlign="middle" textAlign="right">
               {isMultiPage && !isLastPage && (
@@ -167,13 +184,11 @@ const App = () => {
         confirm={addDrawing}
       />
 
-      <HelpModal
-        open={helpModalOpen}
-        dismiss={() => setHelpModalOpen(false)}
-      />
+      <HelpModal open={helpModalOpen} dismiss={() => setHelpModalOpen(false)} />
     </Container>
   );
-}
+};
 
 export default App;
+
 

@@ -7,13 +7,9 @@ import { AttachmentTypes } from '../entities';
 const UploadTypes = {
   PDF: 'pdf',
   IMAGE: 'image',
-}
+};
 
-const useUploader = ({
-  use,
-  afterUploadPdf,
-  afterUploadAttachment,
-}) => {
+const useUploader = ({ use, afterUploadPdf, afterUploadAttachment }) => {
   const [isUploading, setIsUploading] = useState(false);
   const inputRef = useRef(null);
   const { initialize } = usePdf();
@@ -103,3 +99,6 @@ const useUploader = ({
 };
 
 export default useUploader;
+export { UploadTypes };
+
+
