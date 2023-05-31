@@ -11,7 +11,7 @@ import { ggID } from './utils/helpers';
 import { useAttachments } from './hooks/useAttachments';
 import { useUploader, UploadTypes } from './hooks/useUploader';
 import Empty from './components/Empty';
-import { Page } from './components/Page';
+import { Page } from './components/page';
 import { Attachments } from './components/Attachments';
 
 const App = () => {

@@ -6120,6 +6120,11 @@
   "resolved" "https://registry.npmjs.org/jiti/-/jiti-1.18.2.tgz"
   "version" "1.18.2"
 
+"jquery@x.*":
+  "integrity" "sha512-umpJ0/k8X0MvD1ds0P9SfowREz2LenHsQaxSohMZ5OMNEU2r0tf8pdeEFTHMFxWVxKNyU9rTtK3CWzUCTKJUeQ=="
+  "resolved" "https://registry.npmjs.org/jquery/-/jquery-3.7.0.tgz"
+  "version" "3.7.0"
+
 "js-tokens@^3.0.0 || ^4.0.0", "js-tokens@^4.0.0":
   "integrity" "sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ=="
   "resolved" "https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz"
@@ -8292,6 +8297,13 @@
   "version" "2.1.1"
   dependencies:
     "node-forge" "^1"
+
+"semantic-ui-css@^2.5.0":
+  "integrity" "sha512-jIWn3WXXE2uSaWCcB+gVJVRG3masIKtTMNEP2X8Aw909H2rHpXGneYOxzO3hT8TpyvB5/dEEo9mBFCitGwoj1A=="
+  "resolved" "https://registry.npmjs.org/semantic-ui-css/-/semantic-ui-css-2.5.0.tgz"
+  "version" "2.5.0"
+  dependencies:
+    "jquery" "x.*"
 
 "semantic-ui-react@^2.1.4":
   "integrity" "sha512-7CxjBoFUfH7fUvtn+SPkkIocthUD9kV3niF1mUMa9TbeyPAf2brtRCZBlT2OpHaXmkscFzGjEfhbJo9gKfotzQ=="
