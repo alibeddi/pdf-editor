@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getAsset } from './prepareAssets';
 
 export const readAsArrayBuffer = (file) => {
@@ -34,19 +34,18 @@ export const readAsDataURL = (file) => {
 };
 
 export const readAsPDF = async (file) => {
-  const pdfjsLib = await getAsset('pdfjsLib');
-  // Safari possibly get webkitblobresource error 1 when using origin file blob
-  const blob = new Blob([file]);
-  const url = window.URL.createObjectURL(blob);
-  return pdfjsLib.getDocument(url).promise;
+  try {
+    const pdfjsLib = await getAsset('pdfjsLib');
+    const blob = new Blob([file]);
+    const url = window.URL.createObjectURL(blob);
+    const document = await pdfjsLib.getDocument(url).promise;
+    return document;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
 
-const MyComponent = () => {
-  useEffect(() => {
-    // Call prepareAssets if needed
-  }, []);
 
-  return <div>{/* JSX content */}</div>;
-};
 
 
