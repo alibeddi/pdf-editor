@@ -1,13 +1,12 @@
 import React from 'react';
 
-
 const ggID = () => {
   let id = 0;
   return function genId() {
     return id++;
   };
 };
-export default { ggID }
+
 const getMovePosition = (
   x,
   y,
@@ -44,8 +43,4 @@ const getMovePosition = (
 
 const normalize = (value) => parseFloat((value / 255).toFixed(1));
 
-// You can use the functions in this component
-return <div>Example Component</div>;
-
-
-
+export { ggID, getMovePosition, normalize };
