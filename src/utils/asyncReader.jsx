@@ -35,7 +35,7 @@ export const readAsDataURL = (file) => {
 
 export const readAsPDF = async (file) => {
   try {
-    const pdfjsLib = await getAsset('pdfjsLib');
+    const pdfjsLib = await getAsset('PDFLib');
     const blob = new Blob([file]);
     const url = window.URL.createObjectURL(blob);
     const document = await pdfjsLib.getDocument(url).promise;
